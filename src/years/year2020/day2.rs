@@ -30,8 +30,7 @@ struct PassWithPolicy<'a> {
 mod test {
     use std::fs::read_to_string;
     use std::io::Error;
-    use super::{solve_part_one, solve_part_two};
-    use crate::days::day2::PassWithPolicy;
+    use super::*;
     use std::str::FromStr;
 
 

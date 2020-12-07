@@ -30,7 +30,7 @@ mod test {
     use std::fs::read_to_string;
     use std::io::Error;
 
-    use super::{solve_part_one, solve_part_two};
+    use super::*;
 
     #[test]
     fn test_part_one() -> Result<(), Error> {

@@ -3,7 +3,7 @@ fn solve_part_one(passes: Vec<BoardingPass>) -> usize {
 }
 
 fn solve_part_two(passes: Vec<BoardingPass>) -> usize {
-    let mut ids: Vec<_> = passes.iter().map(|&pass| pass.id).collect();
+    let mut ids: Vec<_> = passes.iter().map(|pass| pass.id).collect();
     ids.sort_unstable();
     ids.iter()
         .scan(ids[0], |prev, &x| {
@@ -61,8 +61,7 @@ impl BoardingPass {
 mod test {
     use std::fs::read_to_string;
     use std::io::Error;
-    use super::{solve_part_one, solve_part_two};
-    use crate::days::day5::BoardingPass;
+    use super::*;
 
     #[test]
     fn test_part_one() -> Result<(), Error> {

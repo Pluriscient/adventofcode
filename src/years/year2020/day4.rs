@@ -1,4 +1,3 @@
-use std::iter::Map;
 use std::collections::HashMap;
 use std::str::FromStr;
 use regex::Regex;
@@ -34,8 +33,8 @@ impl Passport {
 
     fn is_valid(&self) -> bool {
         let required = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
-        let optional = ["cid"];
-        required.iter().all((|&key| self.dictionary.contains_key(key)))
+        // let optional = ["cid"];
+        required.iter().all(|&key| self.dictionary.contains_key(key))
     }
 
     fn has_valid_values(&self) -> Result<bool, Box<dyn error::Error>> {
@@ -69,7 +68,7 @@ impl Passport {
             .ok_or("hgt invalid")?;
         let metric_hgt = caps.get(2).map_or("", |m| m.as_str());
         let val_hgt = usize::from_str(caps.get(1).map_or("", |m| m.as_str()))?;
-        let mut hgt = false;
+        let hgt;
         if metric_hgt == "in" {
             hgt = 59 <= val_hgt && 76 >= val_hgt;
         } else {
@@ -84,8 +83,7 @@ impl Passport {
 mod test {
     use std::fs::read_to_string;
     use std::io::Error;
-    use super::{solve_part_one, solve_part_two};
-    use crate::days::day4::Passport;
+    use super::*;
     use std::error;
 
 
