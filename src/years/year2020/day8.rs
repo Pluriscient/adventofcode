@@ -91,7 +91,7 @@ mod test {
     fn test_part_one() -> Result<(), Error> {
         let instructions = parse_input()?;
         let solution = solve_part_one(instructions);
-        println!("solution part 1: {}", solution);
+        println!("[day8] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -99,7 +99,7 @@ mod test {
     fn test_part_two() -> Result<(), Error> {
         let instructions = parse_input()?;
         let solution = solve_part_two(instructions);
-        println!("solution part 2: {}", solution);
+        println!("[day8] solution part 2: {}", solution);
         Ok(())
     }
 }

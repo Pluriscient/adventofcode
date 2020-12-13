@@ -69,7 +69,7 @@ mod test {
     fn test_part_one() -> Result<(), Box<dyn Error>> {
         let (schedule, departure) = parse_input()?;
         let solution = solve_part_one(schedule, departure);
-        println!("solution part 1: {}", solution);
+        println!("[day13] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -77,7 +77,7 @@ mod test {
     fn test_part_two() -> Result<(), Box<dyn Error>> {
         let (schedule, departure) = parse_input()?;
         let solution = solve_part_two(schedule, departure);
-        println!("solution part 2: {}", solution);
+        println!("[day13] solution part 2: {}", solution);
         Ok(())
     }
 }

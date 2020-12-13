@@ -190,7 +190,7 @@ mod test {
     fn test_part_one() -> Result<(), Error> {
         let seatmap = parse_input()?;
         let solution = solve_part_one(seatmap);
-        println!("solution part 1: {}", solution);
+        println!("[day11] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -198,7 +198,7 @@ mod test {
     fn test_part_two() -> Result<(), Error> {
         let seatmap = parse_input()?;
         let solution = solve_part_two(seatmap);
-        println!("solution part 2: {}", solution);
+        println!("[day11] solution part 2: {}", solution);
         Ok(())
     }
 }

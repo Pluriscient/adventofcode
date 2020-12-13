@@ -57,7 +57,7 @@ mod test {
     fn test_part_one() -> Result<(), Error> {
         let jolts = parse_input()?;
         let solution = solve_part_one(jolts);
-        println!("solution part 1: {}", solution);
+        println!("[day10] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -65,7 +65,7 @@ mod test {
     fn test_part_two() -> Result<(), Error> {
         let jolts = parse_input()?;
         let solution = solve_part_two(jolts);
-        println!("solution part 2: {}", solution);
+        println!("[day10] solution part 2: {}", solution);
         Ok(())
     }
 }

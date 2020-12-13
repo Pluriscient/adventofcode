@@ -43,7 +43,7 @@ mod test {
             .collect::<Vec<_>>();
         // println!("{:?}", landscape);
         let solution = solve_part_one(landscape);
-        println!("solution part 1: {}", solution);
+        println!("[day3] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -56,7 +56,7 @@ mod test {
                 .collect::<Vec<_>>())
             .collect::<Vec<_>>();
         let solution = solve_part_two(landscape);
-        println!("solution part 2: {}", solution);
+        println!("[day3] solution part 2: {}", solution);
         Ok(())
     }
 }

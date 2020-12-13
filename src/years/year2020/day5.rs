@@ -71,7 +71,7 @@ mod test {
             .map(|line| BoardingPass::read_from_line(line.trim()))
             .collect();
         let solution = solve_part_one(passes);
-        println!("solution part 1: {}", solution);
+        println!("[day5] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -84,7 +84,7 @@ mod test {
             .map(|line| BoardingPass::read_from_line(line.trim()))
             .collect();
         let solution = solve_part_two(passes);
-        println!("solution part 2: {}", solution);
+        println!("[day5] solution part 2: {}", solution);
         Ok(())
     }
 }

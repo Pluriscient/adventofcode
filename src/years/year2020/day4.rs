@@ -103,7 +103,7 @@ mod test {
             }
         }
         let solution = solve_part_one(passports);
-        println!("solution part 1: {}", solution);
+        println!("[day4] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -123,7 +123,7 @@ mod test {
             }
         }
         let solution = solve_part_two(passports);
-        println!("solution part 2: {}", solution);
+        println!("[day4] solution part 2: {}", solution);
         Ok(())
     }
 }

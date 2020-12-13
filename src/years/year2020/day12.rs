@@ -99,7 +99,7 @@ mod test {
         // todo transform lines to our input somehow
         let instructions = lines;
         let solution = solve_part_one(instructions);
-        println!("solution part 1: {}", solution);
+        println!("[day12] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -110,7 +110,7 @@ mod test {
         // todo transform lines to our input somehow
         let instructions = lines;
         let solution = solve_part_two(instructions);
-        println!("solution part 2: {}", solution);
+        println!("[day12] solution part 2: {}", solution);
         Ok(())
     }
 }

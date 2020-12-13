@@ -93,7 +93,7 @@ mod test {
         let bagrules = get_input();
         // eprintln!("bagrules = {:#?}", bagrules);
         let solution = solve_part_one(bagrules);
-        println!("solution part 1: {}", solution);
+        println!("[day7] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -101,7 +101,7 @@ mod test {
     fn test_part_two() -> Result<(), Error> {
         let bagrules = get_input();
         let solution = solve_part_two(bagrules);
-        println!("solution part 2: {}", solution);
+        println!("[day7] solution part 2: {}", solution);
         Ok(())
     }
 }

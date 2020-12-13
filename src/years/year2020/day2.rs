@@ -54,7 +54,7 @@ mod test {
         let passes = input.lines().map(|l| parse_line(l)).collect::<Vec<_>>();
         // println!("passes: {:?}", passes);
         let solution = solve_part_one(passes);
-        println!("solution part 1: {}", solution);
+        println!("[day2] solution part 1: {}", solution);
         Ok(())
     }
 
@@ -63,8 +63,8 @@ mod test {
         let input = read_to_string("inputs/day2.txt")?;
         let passes = input.lines().map(|l| parse_line(l)).collect::<Vec<_>>();
         let solution = solve_part_two(passes);
-        // println!("solution part 1: {}", solution);
-        println!("solution part 2: {}", solution);
+        // println!("[day2] solution part 1: {}", solution);
+        println!("[day2] solution part 2: {}", solution);
         Ok(())
     }
 }
