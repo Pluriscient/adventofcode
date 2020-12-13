@@ -6,7 +6,7 @@ fn solve_part_one(expenses: Vec<isize>) -> isize {
             }
         }
     }
-    -1
+    unreachable!()
 }
 
 fn solve_part_two(expenses: Vec<isize>) -> isize {
@@ -19,32 +19,36 @@ fn solve_part_two(expenses: Vec<isize>) -> isize {
             }
         }
     }
-    -1
+    unreachable!()
 }
 
 #[cfg(test)]
 mod test {
     use std::fs::read_to_string;
-    use std::io::Error;
-    use std::str::FromStr;
+    use std::error::Error;
     use super::*;
-    // use crate::days::day1::{solve_part_one, solve_part_two};
+    use itertools::Itertools;
+    use std::str::FromStr;
+
+    fn parse_input() -> Result<Vec<isize>, Box<dyn Error>> {
+        let input = read_to_string("inputs/day1.txt")?;
+        let lines = input.lines();
+        Ok(lines.filter_map(|x| isize::from_str(x).ok()).collect_vec())
+    }
 
     #[test]
-    fn test_day() -> Result<(), Error> {
-        // read the input
-        let input = read_to_string("inputs/day1.txt")?;
-        let lines = input.split_ascii_whitespace()
-            .filter(|l| !l.trim().is_empty())
-            .collect::<Vec<&str>>();
-        let numbers = lines.iter()
-            .map(|l| isize::from_str(l).unwrap());
-        let numbers: Vec<isize> = numbers.collect();
-        println!("input: \n{:?}", numbers);
-        let solution_one = solve_part_one(numbers.clone());
-        println!("solution_1: {:?}", solution_one);
-        let solution_two = solve_part_two(numbers);
-        println!("solution_2: {:?}", solution_two);
+    fn test_part_one() -> Result<(), Box<dyn Error>> {
+        let expenses = parse_input()?;
+        let solution = solve_part_one(expenses);
+        println!("[day1] solution part 1: {}", solution);
+        Ok(())
+    }
+
+    #[test]
+    fn test_part_two() -> Result<(), Box<dyn Error>> {
+        let expenses = parse_input()?;
+        let solution = solve_part_two(expenses);
+        println!("[day1] solution part 2: {}", solution);
         Ok(())
     }
 }
