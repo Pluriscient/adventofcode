@@ -8,11 +8,3 @@ mod years;
 fn main() {
     println!("Hello, world!");
 }
-
-// #[cfg(test)]
-mod test {
-    #[test]
-    fn run() {
-        println!("running test");
-    }
-}
