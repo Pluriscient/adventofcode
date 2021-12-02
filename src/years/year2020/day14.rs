@@ -73,7 +73,7 @@ mod test {
     use std::str::FromStr;
 
     fn parse_input() -> Result<Vec<Either<String, (u64, u64)>>, Box<dyn Error>> {
-        let input = read_to_string("inputs/day14.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day14.txt")?;
         let lines = input.lines();
         let regex = Regex::new(r"^mem\[(\d+)] = (\d+)\s*$").unwrap();
         let mem_instructions = lines

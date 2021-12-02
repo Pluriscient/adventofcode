@@ -111,7 +111,7 @@ mod test {
     use super::*;
 
     fn parse_input() -> Result<(RuleSet, Vec<String>), Box<dyn Error>> {
-        let input = read_to_string("inputs/day19.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day19.txt")?;
         let mut lines = input.lines();
         let ruleset = lines.take_while_ref(|l| !l.trim().is_empty()).collect::<RuleSet>();
         let messages = lines

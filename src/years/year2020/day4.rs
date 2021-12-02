@@ -89,7 +89,7 @@ mod test {
 
     #[test]
     fn test_part_one() -> Result<(), Error> {
-        let input = read_to_string("inputs/day4.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day4.txt")?;
         let lines = input.lines();
         let mut cur_lines = String::new();
         let mut passports: Vec<Passport> = vec![];
@@ -109,7 +109,7 @@ mod test {
 
     #[test]
     fn test_part_two() -> Result<(), Box<dyn error::Error>> {
-        let input = read_to_string("inputs/day4.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day4.txt")?;
         let lines = input.lines();
         let mut cur_lines = String::new();
         let mut passports: Vec<Passport> = vec![];

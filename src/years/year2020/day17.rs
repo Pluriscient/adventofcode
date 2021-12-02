@@ -88,7 +88,7 @@ mod test {
     use itertools::Itertools;
 
     fn parse_input() -> Result<Grid, Box<dyn Error>> {
-        let input = read_to_string("inputs/day17.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day17.txt")?;
         let lines = input.lines();
         let points = lines.enumerate()
             .flat_map(|(y, l)| l.char_indices()

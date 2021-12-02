@@ -135,7 +135,7 @@ mod test {
     use itertools::Itertools;
 
     fn parse_input() -> Result<(Vec<Rule>, Ticket, Vec<Ticket>), Box<dyn Error>> {
-        let input = read_to_string("inputs/day16.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day16.txt")?;
         let mut lines = input.lines();
         let rules = lines.by_ref().take_while(|line| !line.trim().is_empty())
             .filter_map(|line| Rule::read_from(line)).collect_vec();

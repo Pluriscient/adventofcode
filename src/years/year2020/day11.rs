@@ -177,7 +177,7 @@ mod test {
     use itertools::Itertools;
 
     fn parse_input() -> Result<SeatMap, Error> {
-        let input = read_to_string("inputs/day11.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day11.txt")?;
         let lines = input.lines();
         let rows = lines.map(|l| l.trim().chars()
             .map(|c| SeatOccupation::from_char(c).unwrap()).collect_vec()).collect_vec();

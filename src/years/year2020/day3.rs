@@ -34,7 +34,7 @@ mod test {
 
     #[test]
     fn test_part_one() -> Result<(), Error> {
-        let input = read_to_string("inputs/day3.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day3.txt")?;
         let lines = input.lines();
         // todo transform lines to our input somehow
         let landscape = lines
@@ -49,7 +49,7 @@ mod test {
 
     #[test]
     fn test_part_two() -> Result<(), Error> {
-        let input = read_to_string("inputs/day3.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day3.txt")?;
         let lines = input.lines();
         let landscape = lines
             .map(|line| line.trim().chars().map(|c| c == '#')

@@ -82,7 +82,7 @@ mod test {
     use itertools::Itertools;
 
     fn parse_input() -> Result<Vec<Instruction>, Error> {
-        let input = read_to_string("inputs/day8.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day8.txt")?;
         let lines = input.lines();
         Ok(lines.map(Instruction::parse_line).collect_vec())
     }

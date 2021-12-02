@@ -1,9 +1,9 @@
 // use itertools::Itertools;
-use prgrs::{Prgrs};
+// use prgrs::{Prgrs};
 use std::collections::HashMap;
 use indicatif::ProgressIterator;
 use fnv::{FnvHashMap, FnvBuildHasher};
-use itertools::Itertools;
+// use itertools::Itertools;
 
 fn solve_part_one(starting_numbers: Vec<u64>) -> usize {
     let turns = 2020;
@@ -39,7 +39,7 @@ fn solve_part_two(starting_numbers: Vec<u64>) -> usize {
     });
 
     let mut last = last;
-    for turn in (turn..turns) {
+    for turn in turn..turns {
         let turn = turn + 1;
         let new_number = match memory.recall(&last) {
             (0, 0) => 0,
@@ -138,7 +138,7 @@ mod test {
     use std::str::FromStr;
 
     fn parse_input() -> Result<Vec<u64>, Box<dyn Error>> {
-        let input = read_to_string("inputs/day15.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day15.txt")?;
         let res = input.split(",").map(|l| u64::from_str(l)).collect::<Result<Vec<_>, _>>()?;
         Ok(res)
     }

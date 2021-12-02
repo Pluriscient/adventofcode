@@ -102,7 +102,7 @@ mod test {
     use super::*;
 
     fn parse_input() -> Result<Vec<String>, Box<dyn Error>> {
-        let input = read_to_string("inputs/day18.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day18.txt")?;
         let lines = input.lines().map(|s| s.to_string());
 
         Ok(lines.collect_vec())

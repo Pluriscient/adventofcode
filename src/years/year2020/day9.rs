@@ -57,7 +57,7 @@ mod test {
 
 
     fn parse_input() -> Result<Vec<usize>, Error> {
-        let input = read_to_string("inputs/day9.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day9.txt")?;
         let lines = input.lines();
         let encoding = lines.map(|l| usize::from_str(l).unwrap()).collect_vec();
         Ok(encoding)

@@ -29,9 +29,10 @@ mod test {
     use super::*;
     use itertools::Itertools;
     use std::str::FromStr;
+    use crate::years::year2020::util::read_input;
 
     fn parse_input() -> Result<Vec<isize>, Box<dyn Error>> {
-        let input = read_to_string("inputs/day1.txt")?;
+        let input = read_input(1)?;
         let lines = input.lines();
         Ok(lines.filter_map(|x| isize::from_str(x).ok()).collect_vec())
     }

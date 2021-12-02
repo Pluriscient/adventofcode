@@ -56,7 +56,7 @@ mod test {
 
 
     fn parse_input() -> Result<(Vec<Option<isize>>, isize), Box<dyn Error>> {
-        let input = read_to_string("inputs/day13.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day13.txt")?;
         let mut lines = input.lines();
         let departure_time = isize::from_str(lines.next().unwrap())?;
         let schedule = lines.next().unwrap().split(",")

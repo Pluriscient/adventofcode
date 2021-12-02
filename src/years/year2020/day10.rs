@@ -47,7 +47,7 @@ mod test {
     use std::str::FromStr;
 
     fn parse_input() -> Result<Vec<usize>, Error> {
-        let input = read_to_string("inputs/day10.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day10.txt")?;
         let lines = input.lines();
         let jolts = lines.map(|l| usize::from_str(l).unwrap()).collect_vec();
         Ok(jolts)

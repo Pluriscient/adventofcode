@@ -48,7 +48,7 @@ mod test {
 
     #[test]
     fn test_part_one() -> Result<(), Error> {
-        let input = read_to_string("inputs/day2.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day2.txt")?;
 
         // todo transform lines to our input somehow
         let passes = input.lines().map(|l| parse_line(l)).collect::<Vec<_>>();
@@ -60,7 +60,7 @@ mod test {
 
     #[test]
     fn test_part_two() -> Result<(), Error> {
-        let input = read_to_string("inputs/day2.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day2.txt")?;
         let passes = input.lines().map(|l| parse_line(l)).collect::<Vec<_>>();
         let solution = solve_part_two(passes);
         // println!("[day2] solution part 1: {}", solution);

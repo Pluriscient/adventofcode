@@ -82,7 +82,7 @@ mod test {
     use super::*;
 
     fn get_input() -> Vec<BagRule> {
-        let input = read_to_string("inputs/day7.txt").unwrap();
+        let input = read_to_string("../../../inputs/year2020/day7.txt").unwrap();
         let lines = input.lines();
         let bagrules = lines.map(|l| BagRule::parse_line(l)).collect();
         bagrules

@@ -127,7 +127,7 @@ mod test {
     use super::*;
 
     fn parse_input() -> Result<Vec<Tile>, Box<dyn Error>> {
-        let input = read_to_string("inputs/day20.txt")?;
+        let input = read_to_string("../../../inputs/year2020/day20.txt")?;
         let mut lines = input.lines().peekable();
 
         // todo transform lines to our input somehow
