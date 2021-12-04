@@ -4,30 +4,24 @@ use std::error::Error;
 use std::str::FromStr;
 
 type Output = isize;
-const DAY: usize = 3;
+const DAY: usize = 4;
 
-fn solve_part_one(inputs: &[Input]) -> Output {
+fn solve_part_one(inputs: Input) -> Output {
     todo!()
 }
 
-fn solve_part_two(inputs: &[Input]) -> Output {
+fn solve_part_two(inputs: Input) -> Output {
     todo!()
 }
 
-struct Input {
-    size: isize,
-    direction: Direction,
-}
-impl Input {
-   
-}
+struct Input {}
+impl Input {}
 
 impl FromStr for Input {
     type Err = Box<dyn Error>;
 
     fn from_str(s: &str) -> AResult<Self> {
-        todo!()
-        Ok(Self { size, direction })
+        Ok(Input {})
     }
 }
 
@@ -40,20 +34,15 @@ mod test {
     use std::io::Error;
     use std::str::FromStr;
 
-    fn parse_input() -> std::result::Result<Vec<Input>, Error> {
+    fn parse_input() -> std::result::Result<Input, Error> {
         let input = read_input(super::DAY)?;
-        Ok(input
-            .trim()
-            .lines()
-            .map(Input::from_str)
-            .collect::<AResult<Vec<Input>>>()
-            .unwrap())
+        Ok(Input::from_str(input.trim()).expect("Could not parse input"))
     }
 
     #[test]
     fn test_part_one() -> Result<(), Error> {
         let input = parse_input()?;
-        let solution = solve_part_one(&input);
+        let solution = solve_part_one(input);
         println!("solution part 1: {}", solution);
         Ok(())
     }
@@ -61,7 +50,7 @@ mod test {
     #[test]
     fn test_part_two() -> Result<(), Error> {
         let input = parse_input()?;
-        let solution = solve_part_two(&input);
+        let solution = solve_part_two(input);
         println!("solution part 2: {}", solution);
         Ok(())
     }
