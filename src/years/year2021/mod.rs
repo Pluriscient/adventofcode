@@ -33,7 +33,12 @@ mod tests {
         };
         let mut day = D::from_str(text.trim()).expect("Failed to parse input");
         let result = day.part_one();
-        println!("[Day {}] Part one: {:?}", D::DAY, result);
+        println!(
+            "[Day {}] Part one {}: {:?}",
+            D::DAY,
+            if test { "[test]" } else { "" },
+            result
+        );
         Ok(())
     }
     pub fn test_day_part_two<D>(test: bool) -> Result<(), Error>
@@ -49,7 +54,12 @@ mod tests {
         };
         let mut day = D::from_str(text.trim()).expect("Failed to parse input");
         let result = day.part_two();
-        println!("Part one: {:?}", result);
+        println!(
+            "[Day {}] Part two {}: {:?}",
+            D::DAY,
+            if test { "[test]" } else { "" },
+            result
+        );
         Ok(())
     }
 }

@@ -4,53 +4,6 @@ use itertools::Itertools;
 use std::collections::HashSet;
 use std::error::Error;
 use std::str::FromStr;
-
-type Output = isize;
-const DAY: usize = 5;
-
-// mod a {
-
-//     fn solve_part_one(input: Input) -> Output {
-//         // only consider horizontal and vertical segments
-//         let non_diagonal = input
-//             .lines_segments
-//             .iter()
-//             .filter(|l| l.a.x == l.b.x || l.a.y == l.b.y)
-//             .collect::<Vec<_>>();
-//         let mut covered_points = HashSet::new();
-//         let mut done = HashSet::new();
-//         for l in non_diagonal {
-//             for p in l.points() {
-//                 if !done.contains(&p) {
-//                     if covered_points.contains(&p) {
-//                         done.insert(p);
-//                     } else {
-//                         covered_points.insert(p);
-//                     }
-//                 }
-//             }
-//         }
-//         done.len() as Output
-//     }
-
-//     fn solve_part_two(input: Input) -> Output {
-//         let mut covered_points = HashSet::new();
-//         let mut done = HashSet::new();
-//         for l in input.lines_segments.iter() {
-//             for p in l.points() {
-//                 if !done.contains(&p) {
-//                     if covered_points.contains(&p) {
-//                         done.insert(p);
-//                     } else {
-//                         covered_points.insert(p);
-//                     }
-//                 }
-//             }
-//         }
-//         done.len() as Output
-//     }
-// }
-
 use super::AOCDay;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -82,7 +35,7 @@ impl AOCDay for Day5 {
                 }
             }
         }
-        done.len() as Output
+        done.len() as Self::Output
     }
     fn part_two(&mut self) -> Self::Output {
         let mut covered_points = HashSet::new();
@@ -98,7 +51,7 @@ impl AOCDay for Day5 {
                 }
             }
         }
-        done.len() as Output
+        done.len() as Self::Output
     }
 }
 impl FromStr for Day5 {
@@ -145,7 +98,6 @@ impl Line {
             }
         }
         points.push(Point { x, y });
-        // println!("{:?}", points);
         points
     }
 }
@@ -153,7 +105,6 @@ impl Line {
 impl FromStr for Line {
     type Err = Box<dyn Error>;
     fn from_str(s: &str) -> AResult<Self> {
-        // println!("parsing {}", s);
         let els = s
             .split("->")
             .map(|s| {
@@ -174,7 +125,7 @@ impl FromStr for Line {
 }
 
 #[cfg(test)]
-mod tests {
+mod test {
     use super::super::tests::{test_day_part_one, test_day_part_two};
     use super::*;
     type Day = Day5;
