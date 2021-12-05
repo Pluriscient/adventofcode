@@ -1,54 +1,64 @@
+use super::util::AResult;
+use super::AOCDay;
 use itertools::Itertools;
+use std::error::Error;
+use std::str::FromStr;
 
-fn solve_part_one(measurements: &[i32]) -> usize {
-    measurements
-        .windows(2)
-        .filter(|window| window[1] > window[0])
-        .count()
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct Day1 {
+    measurements: Vec<i32>,
 }
 
-fn solve_part_two(measurements: &[i32], size: usize) -> usize {
-    // we can simply steal from the previous assignment
-    solve_part_one(
-        &measurements
-            .windows(size)
+impl AOCDay for Day1 {
+    const DAY: usize = 1;
+    type Output = usize;
+
+    fn part_one(&mut self) -> Self::Output {
+        self.measurements
+            .windows(2)
+            .filter(|window| window[1] > window[0])
+            .count()
+    }
+    fn part_two(&mut self) -> Self::Output {
+        self.measurements = self
+            .measurements
+            .windows(3)
             .map(|window| window.iter().sum())
-            .collect_vec(),
-    )
+            .collect_vec();
+        self.part_one()
+    }
+}
+impl FromStr for Day1 {
+    type Err = Box<dyn Error>;
+    fn from_str(s: &str) -> AResult<Self> {
+        let measurements: Vec<i32> = s
+            .lines()
+            .map(|line| i32::from_str(line.trim()))
+            .collect::<Result<Vec<i32>, _>>()
+            .unwrap();
+        Ok(Self { measurements })
+    }
 }
 
 #[cfg(test)]
-mod test {
-    use super::super::util::read_input;
-    use super::{solve_part_one, solve_part_two};
-    use std::io::Error;
-    use std::str::FromStr;
-
+mod tests {
+    use super::super::tests::{test_day_part_one, test_day_part_two};
+    use super::*;
+    type Day = Day1;
     #[test]
-    fn test_part_one() -> Result<(), Error> {
-        let input = read_input(1)?;
-        let lines = input.split_ascii_whitespace();
-        let measurements: Vec<i32> = lines
-            .map(|line| i32::from_str(line.trim()))
-            .collect::<Result<Vec<i32>, _>>()
-            .unwrap();
-        let solution = solve_part_one(&measurements);
-        println!("solution part 1: {}", solution);
-        Ok(())
+    fn part_one_test() -> Result<(), std::io::Error> {
+        test_day_part_one::<Day>(true)
     }
-
     #[test]
-    fn test_part_two() -> Result<(), Error> {
-        let input = read_input(1)?;
-        let lines = input.split_ascii_whitespace();
-        let measurements: Vec<i32> = lines
-            .map(|line| i32::from_str(line.trim()))
-            .collect::<Result<Vec<i32>, _>>()
-            .unwrap();
-        let solution = solve_part_two(&measurements, 3);
-        // let solution = solve_part_two(&measurements, 2);
-
-        println!("solution part 2: {}", solution);
-        Ok(())
+    fn part_one() -> Result<(), std::io::Error> {
+        test_day_part_one::<Day>(false)
+    }
+    #[test]
+    fn part_two_test() -> Result<(), std::io::Error> {
+        test_day_part_two::<Day>(true)
+    }
+    #[test]
+    fn part_two() -> Result<(), std::io::Error> {
+        test_day_part_two::<Day>(false)
     }
 }
