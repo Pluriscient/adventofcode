@@ -1,4 +1,5 @@
 use super::util::AResult;
+#[allow(unused_imports)]
 use itertools::Itertools;
 use std::error::Error;
 use std::str::FromStr;
@@ -6,11 +7,11 @@ use std::str::FromStr;
 type Output = isize;
 const DAY: usize = 4;
 
-fn solve_part_one(inputs: Input) -> Output {
+fn solve_part_one(input: Input) -> Output {
     todo!()
 }
 
-fn solve_part_two(inputs: Input) -> Output {
+fn solve_part_two(input: Input) -> Output {
     todo!()
 }
 

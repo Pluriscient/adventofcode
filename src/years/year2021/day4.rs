@@ -22,7 +22,6 @@ fn solve_part_one(mut input: Input) -> Output {
 fn solve_part_two(mut input: Input) -> Output {
     let mut last_board_score = 0;
     for number in input.drawn_numbers {
-        // println!("{}", number);
         for board in input.boards.iter_mut() {
             if !board.done {
                 board.mark_number(number);
