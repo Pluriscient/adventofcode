@@ -1,23 +1,28 @@
 use super::util::AResult;
+use super::AOCDay;
+#[allow(unused_imports)]
 use itertools::Itertools;
 use std::error::Error;
 use std::str::FromStr;
 
-type Output = isize;
-const DAY: usize = 3;
+type Day = Day3;
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct Day3 {
+    inputs: Vec<Vec<bool>>,
+}
 fn to_u32(slice: &[bool]) -> u32 {
     slice
         .iter()
-        // .rev()
         .fold(0, |acc, &b| if b { acc * 2 + 1 } else { acc * 2 } as u32)
 }
 
-fn extract_most_common(inputs: &[Input]) -> Vec<bool> {
-    let input_len = inputs[0].bits.len();
+fn extract_most_common(inputs: &[Vec<bool>]) -> Vec<bool> {
+    let input_len = inputs[0].len();
     let input_counts: Vec<usize> =
         inputs
             .iter()
-            .map(|input| &input.bits)
+            .map(|input| &input[..])
             .fold(vec![0; input_len], |mut acc, bits| {
                 for (i, _) in bits.iter().enumerate().filter(|(_, bit)| **bit) {
                     acc[i] += 1;
@@ -25,124 +30,94 @@ fn extract_most_common(inputs: &[Input]) -> Vec<bool> {
                 acc
             });
     let all_ones = inputs.len();
-    let gamma = input_counts
+    let most_common = input_counts
         .iter()
-        // .enumerate()
-        // .inspect(|(i, &count)| println!("{}: {}", i, count))
-        // .map(|(_, count)| count)
         .map(|&count| count * 2 >= all_ones)
-        // .enumerate()
-        // .inspect(|(i, x)| println!("{}: {}", i, x))
-        // .map(|(_, x)| x)
         .collect_vec();
-    gamma
+    most_common
 }
+impl AOCDay for Day {
+    const DAY: usize = 3;
+    type Output = isize;
 
-fn solve_part_one(inputs: &[Input]) -> Output {
-    let input_len = inputs[0].bits.len();
-    let input_counts: Vec<usize> =
-        inputs
+    fn part_one(&mut self) -> Self::Output {
+        let input_len = self.inputs[0].len();
+        let input_counts: Vec<usize> =
+            self.inputs
+                .iter()
+                .map(|input| &input[..])
+                .fold(vec![0; input_len], |mut acc, bits| {
+                    for (i, _) in bits.iter().enumerate().filter(|(_, bit)| **bit) {
+                        acc[i] += 1;
+                    }
+                    acc
+                });
+        let all_ones = self.inputs.len();
+        let gamma = input_counts
             .iter()
-            .map(|input| &input.bits)
-            .fold(vec![0; input_len], |mut acc, bits| {
-                for (i, _) in bits.iter().enumerate().filter(|(_, bit)| **bit) {
-                    acc[i] += 1;
-                }
-                acc
-            });
-    let all_ones = inputs.len();
-    let gamma = input_counts
-        .iter()
-        .map(|&count| count > all_ones / 2)
-        .collect_vec();
-    let epsilon = (&gamma).iter().map(|g| !g).collect_vec();
-    // println!("gamma: {:?}", gamma);
-    // println!("epsilon: {:?}", epsilon);
-    (to_u32(&gamma) * to_u32(&epsilon)) as isize
-}
-
-fn solve_part_two(inputs: &[Input]) -> Output {
-    // let most_common = extract_most_common(inputs);
-    let bit_length = inputs[0].bits.len();
-    let mut remaining: Vec<Input> = inputs.to_vec();
-    let mut oxygen = vec![false; bit_length];
-    for i in 0..bit_length {
-        let most_common = extract_most_common(&remaining);
-        remaining.retain(|input| input.bits[i] == most_common[i]);
-        // println!(
-        //     "at position {} ({}), remaining: {:?}",
-        //     i,
-        //     most_common[i],
-        //     remaining.len()
-        // );
-        // println!("{:?}", remaining);
-        if remaining.len() == 1 {
-            oxygen = remaining[0].bits.clone();
-            break;
-        }
+            .map(|&count| count > all_ones / 2)
+            .collect_vec();
+        let epsilon = (&gamma).iter().map(|g| !g).collect_vec();
+        // println!("gamma: {:?}", gamma);
+        // println!("epsilon: {:?}", epsilon);
+        (to_u32(&gamma) * to_u32(&epsilon)) as isize
     }
-    remaining = inputs.to_vec();
-    let mut co2 = vec![false; bit_length];
-    for i in 0..bit_length {
-        let most_common = extract_most_common(&remaining);
-        remaining.retain(|input| input.bits[i] != most_common[i]);
-        if remaining.len() == 1 {
-            co2 = remaining[0].bits.clone();
-            break;
+    fn part_two(&mut self) -> Self::Output {
+        // let most_common = extract_most_common(inputs);
+        let bit_length = self.inputs[0].len();
+        let mut remaining: Vec<Vec<bool>> = self.inputs.to_vec();
+        let mut oxygen = vec![false; bit_length];
+        for i in 0..bit_length {
+            let most_common = extract_most_common(&remaining);
+            remaining.retain(|input| input[i] == most_common[i]);
+            if remaining.len() == 1 {
+                oxygen = remaining[0].clone();
+                break;
+            }
         }
+        remaining = self.inputs.to_vec();
+        let mut co2 = vec![false; bit_length];
+        for i in 0..bit_length {
+            let most_common = extract_most_common(&remaining);
+            remaining.retain(|input| input[i] != most_common[i]);
+            if remaining.len() == 1 {
+                co2 = remaining[0].clone();
+                break;
+            }
+        }
+        (to_u32(&oxygen) * to_u32(&co2)) as Self::Output
     }
-    // println!("oxygen: {:?}", oxygen);
-    // println!("co2: {:?}", co2);
-    (to_u32(&oxygen) * to_u32(&co2)) as Output
 }
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-struct Input {
-    bits: Vec<bool>,
-}
-impl Input {}
-
-impl FromStr for Input {
+impl FromStr for Day {
     type Err = Box<dyn Error>;
-
     fn from_str(s: &str) -> AResult<Self> {
-        let bits = s.chars().map(|c| c == '1').collect_vec();
-        Ok(Self { bits })
+        let inputs = s
+            .lines()
+            .map(|line| line.chars().map(|c| c == '1').collect_vec());
+        Ok(Self {
+            inputs: inputs.collect_vec(),
+        })
     }
 }
 
 #[cfg(test)]
-#[allow(unused_imports)]
-mod test {
-    use super::super::util::{read_input, read_input_test};
+mod tests {
+    use super::super::tests::{test_day_part_one, test_day_part_two};
     use super::*;
-    use super::{solve_part_one, solve_part_two};
-    use std::io::Error;
-    use std::str::FromStr;
-
-    fn parse_input() -> std::result::Result<Vec<Input>, Error> {
-        let input = read_input(super::DAY)?;
-        Ok(input
-            .trim()
-            .lines()
-            .map(Input::from_str)
-            .collect::<AResult<Vec<Input>>>()
-            .unwrap())
-    }
-
     #[test]
-    fn test_part_one() -> Result<(), Error> {
-        let input = parse_input()?;
-        let solution = solve_part_one(&input);
-        println!("solution part 1: {}", solution);
-        Ok(())
+    fn part_one_test() -> Result<(), std::io::Error> {
+        test_day_part_one::<Day>(true)
     }
-
     #[test]
-    fn test_part_two() -> Result<(), Error> {
-        let input = parse_input()?;
-        let solution = solve_part_two(&input);
-        println!("solution part 2: {}", solution);
-        Ok(())
+    fn part_one() -> Result<(), std::io::Error> {
+        test_day_part_one::<Day>(false)
+    }
+    #[test]
+    fn part_two_test() -> Result<(), std::io::Error> {
+        test_day_part_two::<Day>(true)
+    }
+    #[test]
+    fn part_two() -> Result<(), std::io::Error> {
+        test_day_part_two::<Day>(false)
     }
 }
