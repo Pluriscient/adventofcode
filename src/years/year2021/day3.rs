@@ -11,6 +11,7 @@ type Day = Day3;
 struct Day3 {
     inputs: Vec<Vec<bool>>,
 }
+/// Parse the vector of bools into an integer (most significant bit first)
 fn to_u32(slice: &[bool]) -> u32 {
     slice
         .iter()
@@ -58,12 +59,9 @@ impl AOCDay for Day {
             .map(|&count| count > all_ones / 2)
             .collect_vec();
         let epsilon = (&gamma).iter().map(|g| !g).collect_vec();
-        // println!("gamma: {:?}", gamma);
-        // println!("epsilon: {:?}", epsilon);
         (to_u32(&gamma) * to_u32(&epsilon)) as isize
     }
     fn part_two(&mut self) -> Self::Output {
-        // let most_common = extract_most_common(inputs);
         let bit_length = self.inputs[0].len();
         let mut remaining: Vec<Vec<bool>> = self.inputs.to_vec();
         let mut oxygen = vec![false; bit_length];

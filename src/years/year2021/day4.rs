@@ -1,38 +1,93 @@
 use super::util::AResult;
+use super::AOCDay;
 #[allow(unused_imports)]
 use itertools::Itertools;
 use std::error::Error;
 use std::str::FromStr;
 
-type Output = isize;
-const DAY: usize = 4;
+type Day = Day4;
 
-fn solve_part_one(mut input: Input) -> Output {
-    for number in input.drawn_numbers {
-        for board in input.boards.iter_mut() {
-            board.mark_number(number);
-            if board.check_complete() {
-                return board.get_checksum(number);
-            }
-        }
-    }
-    panic!("No solution found");
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct Day4 {
+    drawn_numbers: Vec<isize>,
+    boards: Vec<Board>,
 }
 
-fn solve_part_two(mut input: Input) -> Output {
-    let mut last_board_score = 0;
-    for number in input.drawn_numbers {
-        for board in input.boards.iter_mut() {
-            if !board.done {
-                board.mark_number(number);
+impl AOCDay for Day {
+    const DAY: usize = 4;
+    type Output = isize;
+
+    fn part_one(&mut self) -> Self::Output {
+        for number in &self.drawn_numbers {
+            for board in self.boards.iter_mut() {
+                board.mark_number(*number);
                 if board.check_complete() {
-                    last_board_score = board.get_checksum(number);
-                    board.done();
+                    return board.get_checksum(*number);
                 }
             }
         }
+        panic!("No solution found");
     }
-    last_board_score
+    fn part_two(&mut self) -> Self::Output {
+        let mut last_board_score = 0;
+        for number in &self.drawn_numbers {
+            for board in self.boards.iter_mut() {
+                if !board.done {
+                    board.mark_number(*number);
+                    if board.check_complete() {
+                        last_board_score = board.get_checksum(*number);
+                        board.done();
+                    }
+                }
+            }
+        }
+        last_board_score
+    }
+}
+
+impl FromStr for Day {
+    type Err = Box<dyn Error>;
+    fn from_str(s: &str) -> AResult<Self> {
+        let mut lines = s.lines();
+        let drawn_numbers: Vec<isize> = lines
+            .next()
+            .unwrap()
+            .split(',')
+            .map(|s| s.parse::<isize>().unwrap())
+            .collect();
+        let lines = lines.filter(|l| !l.is_empty()).collect::<Vec<&str>>();
+        let boards = lines
+            .chunks(5)
+            .map(|chunk| Board::from_str(&chunk.join("\n")).unwrap())
+            .collect::<Vec<Board>>();
+
+        Ok(Self {
+            drawn_numbers,
+            boards,
+        })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::super::tests::{test_day_part_one, test_day_part_two};
+    use super::*;
+    #[test]
+    fn part_one_test() -> Result<(), std::io::Error> {
+        test_day_part_one::<Day>(true)
+    }
+    #[test]
+    fn part_one() -> Result<(), std::io::Error> {
+        test_day_part_one::<Day>(false)
+    }
+    #[test]
+    fn part_two_test() -> Result<(), std::io::Error> {
+        test_day_part_two::<Day>(true)
+    }
+    #[test]
+    fn part_two() -> Result<(), std::io::Error> {
+        test_day_part_two::<Day>(false)
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -99,67 +154,5 @@ impl FromStr for Board {
             })
             .collect::<Vec<Vec<(isize, bool)>>>();
         Ok(Board { rows, done: false })
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-struct Input {
-    drawn_numbers: Vec<isize>,
-    boards: Vec<Board>,
-}
-impl Input {}
-
-impl FromStr for Input {
-    type Err = Box<dyn Error>;
-
-    fn from_str(s: &str) -> AResult<Self> {
-        let mut lines = s.lines();
-        let drawn_numbers: Vec<isize> = lines
-            .next()
-            .unwrap()
-            .split(',')
-            .map(|s| s.parse::<isize>().unwrap())
-            .collect();
-        let lines = lines.filter(|l| !l.is_empty()).collect::<Vec<&str>>();
-        let boards = lines
-            .chunks(5)
-            .map(|chunk| Board::from_str(&chunk.join("\n")).unwrap())
-            .collect::<Vec<Board>>();
-
-        Ok(Input {
-            drawn_numbers,
-            boards,
-        })
-    }
-}
-
-#[cfg(test)]
-#[allow(unused_imports)]
-mod test {
-    use super::super::util::{read_input, read_input_test};
-    use super::*;
-    use super::{solve_part_one, solve_part_two};
-    use std::io::Error;
-    use std::str::FromStr;
-
-    fn parse_input() -> std::result::Result<Input, Error> {
-        let input = read_input(super::DAY)?;
-        Ok(Input::from_str(input.trim()).expect("Could not parse input"))
-    }
-
-    #[test]
-    fn test_part_one() -> Result<(), Error> {
-        let input = parse_input()?;
-        let solution = solve_part_one(input);
-        println!("solution part 1: {}", solution);
-        Ok(())
-    }
-
-    #[test]
-    fn test_part_two() -> Result<(), Error> {
-        let input = parse_input()?;
-        let solution = solve_part_two(input);
-        println!("solution part 2: {}", solution);
-        Ok(())
     }
 }
