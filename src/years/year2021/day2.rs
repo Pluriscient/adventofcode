@@ -1,27 +1,53 @@
 use super::util::AResult;
+use super::AOCDay;
+#[allow(unused_imports)]
 use itertools::Itertools;
 use std::error::Error;
 use std::str::FromStr;
 
-fn solve_part_one(steps: &[Step]) -> isize {
-    let final_position = steps
-        .iter()
-        .fold((0, 0), |pos, step| step.apply_step_a(pos));
-    final_position.0 * final_position.1
+type Day = Day2;
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct Day2 {
+    steps: Vec<Step>,
 }
 
-fn solve_part_two(steps: &[Step]) -> isize {
-    let final_position = steps
-        .iter()
-        .fold((0, 0, 0), |pos, step| step.apply_step_b(pos));
-    final_position.0 * final_position.1
+impl AOCDay for Day {
+    const DAY: usize = 2;
+    type Output = isize;
+
+    fn part_one(&mut self) -> Self::Output {
+        let final_position = self
+            .steps
+            .iter()
+            .fold((0, 0), |pos, step| step.apply_step_a(pos));
+        final_position.0 * final_position.1
+    }
+    fn part_two(&mut self) -> Self::Output {
+        let final_position = self
+            .steps
+            .iter()
+            .fold((0, 0, 0), |pos, step| step.apply_step_b(pos));
+        final_position.0 * final_position.1
+    }
 }
+impl FromStr for Day {
+    type Err = Box<dyn Error>;
+    fn from_str(s: &str) -> AResult<Self> {
+        let steps: Vec<Step> = s
+            .lines()
+            .map(|line| line.parse::<Step>().unwrap())
+            .collect();
+        Ok(Day2 { steps })
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
 enum Direction {
     Forward,
     Up,
     Down,
 }
-
+#[derive(Clone, Debug, Eq, PartialEq)]
 struct Step {
     size: isize,
     direction: Direction,
@@ -64,36 +90,23 @@ impl FromStr for Step {
 }
 
 #[cfg(test)]
-mod test {
-    use super::super::util::read_input;
+mod tests {
+    use super::super::tests::{test_day_part_one, test_day_part_two};
     use super::*;
-    use super::{solve_part_one, solve_part_two};
-    use std::io::Error;
-    use std::str::FromStr;
-
-    fn parse_input() -> std::result::Result<Vec<Step>, Error> {
-        let input = read_input(2)?;
-        Ok(input
-            .trim()
-            .lines()
-            .map(Step::from_str)
-            .collect::<AResult<Vec<Step>>>()
-            .unwrap())
-    }
-
     #[test]
-    fn test_part_one() -> Result<(), Error> {
-        let input = parse_input()?;
-        let solution = solve_part_one(&input);
-        println!("solution part 1: {}", solution);
-        Ok(())
+    fn part_one_test() -> Result<(), std::io::Error> {
+        test_day_part_one::<Day>(true)
     }
-
     #[test]
-    fn test_part_two() -> Result<(), Error> {
-        let input = parse_input()?;
-        let solution = solve_part_two(&input);
-        println!("solution part 2: {}", solution);
-        Ok(())
+    fn part_one() -> Result<(), std::io::Error> {
+        test_day_part_one::<Day>(false)
+    }
+    #[test]
+    fn part_two_test() -> Result<(), std::io::Error> {
+        test_day_part_two::<Day>(true)
+    }
+    #[test]
+    fn part_two() -> Result<(), std::io::Error> {
+        test_day_part_two::<Day>(false)
     }
 }
