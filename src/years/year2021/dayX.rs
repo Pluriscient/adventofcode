@@ -4,7 +4,9 @@ use super::AOCDay;
 use itertools::Itertools;
 use std::error::Error;
 use std::str::FromStr;
+
 type Day = DayX;
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 struct DayX {}
 
@@ -19,6 +21,7 @@ impl AOCDay for Day {
         todo!()
     }
 }
+
 impl FromStr for Day {
     type Err = Box<dyn Error>;
     fn from_str(_: &str) -> AResult<Self> {
