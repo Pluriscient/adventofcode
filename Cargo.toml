@@ -5,7 +5,10 @@ authors = ["Eric van der Toorn <e.a.vandertoorn@student.tudelft.nl>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
+[features]
+year2020 = []
+year2021 = []
+default = ["year2021"]
 
 
 [dependencies]
