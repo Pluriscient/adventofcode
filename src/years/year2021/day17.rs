@@ -24,19 +24,20 @@ impl Day {
         // then we can see if that would happen at a full step or not
         let t = self.count_ysteps_till_intersection(10).unwrap() as isize;
         // let t = t as f64;
-        let b = (-18 * t
-            ^ 3 - 27 * t
-            ^ 2 + (3 as f64).sqrt()
-                * sqrt(-729 * t ^ 4 - 1458 * t ^ 3 - 2493 * t ^ 2 - 1764 * t - 1372)
-                - 9 * t)
-            ^ (1 / 3) / (2 ^ (1 / 3) * 3 ^ (2 / 3))
-                - ((2 / 3) ^ (1 / 3) * (-9 * t ^ 2 - 9 * t - 21))
-                    / (3 * (-18 * t
-                        ^ 3 - 27 * t
-                        ^ 2 + sqrt(3)
-                            * sqrt(-729 * t ^ 4 - 1458 * t ^ 3 - 2493 * t ^ 2 - 1764 * t - 1372)
-                            - 9 * t)
-                        ^ (1 / 3));
+        // let b = (-18 * t
+        //     ^ 3 - 27 * t
+        //     ^ 2 + (3 as f64).sqrt()
+        //         * sqrt(-729 * t ^ 4 - 1458 * t ^ 3 - 2493 * t ^ 2 - 1764 * t - 1372)
+        //         - 9 * t)
+        //     ^ (1 / 3) / (2 ^ (1 / 3) * 3 ^ (2 / 3))
+        //         - ((2 / 3) ^ (1 / 3) * (-9 * t ^ 2 - 9 * t - 21))
+        //             / (3 * (-18 * t
+        //                 ^ 3 - 27 * t
+        //                 ^ 2 + sqrt(3)
+        //                     * sqrt(-729 * t ^ 4 - 1458 * t ^ 3 - 2493 * t ^ 2 - 1764 * t - 1372)
+        //                     - 9 * t)
+        //                 ^ (1 / 3));
+        todo!()
     }
 
     fn count_ysteps_till_intersection(&self, y_speed: isize) -> Option<usize> {
