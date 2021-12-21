@@ -60,23 +60,24 @@ impl Day {
         let mut x = 0;
         let mut y = 0;
         let mut y_max = 0;
-        let mut step = 0;
+        // let mut step = 1;
         loop {
             x += cur_x_speed;
             y += cur_y_speed;
+            // println!("at step {}: x={}, y={}", step, x, y);
             y_max = std::cmp::max(y_max, y);
-            if x > self.x_bounds.1
-                || x < self.x_bounds.0
-                || y > self.y_bounds.1
-                || y < self.y_bounds.0
+
+            if x >= self.x_bounds.0
+                && x <= self.x_bounds.1
+                && y <= self.y_bounds.0
+                && y >= self.y_bounds.1
             {
-                println!("Stepped out of bounds at step {}", step);
-                println!("{:?}", (x, y));
+                // println!("Found square at step {}", step);
+                return Some(y_max);
+            } else if x > self.x_bounds.1 || y < self.y_bounds.1 {
+                // println!("Stepped out of bounds at step {}", step);
+                // println!("{:?}", (x, y));
                 return None;
-            }
-            if x == self.x_bounds.1 && y == self.y_bounds.1 {
-                println!("Found square at step {}", step);
-                return Some(x.abs() + y.abs());
             }
             // x speed is slowed till it reaches zero
             if cur_x_speed > 0 {
@@ -86,7 +87,7 @@ impl Day {
             }
             // y speed keeps decreasing
             cur_y_speed -= 1;
-            step += 1;
+            // step += 1;
         }
     }
 }
@@ -101,19 +102,40 @@ impl AOCDay for Day {
         // we want to maximize the y value that we can have
         // we can do this by simulating the movement of the sub
         // and seeing when it reaches the square
-        let mut y_speed = 1;
+        // or just bruteforce cus it isn't that many combinations
         let mut max_y = 0;
-        while y_speed > 0 {
-            let result = self.simulate(0, y_speed);
-            if let Some(y) = result {
-                max_y = std::cmp::max(max_y, y);
+        for y_speed in 1..=self.x_bounds.0 {
+            for x_speed in 1..=(self.x_bounds.0 / 2) {
+                // let (x_speed, y_speed) = (7, 2);
+                println!("Trying {} {}", x_speed, y_speed);
+                let result = self.simulate(x_speed, y_speed);
+                if let Some(y) = result {
+                    max_y = std::cmp::max(max_y, y);
+                }
+                // break
             }
-            y_speed -= 1;
+            // break
         }
-        todo!()
+        max_y
     }
     fn part_two(&mut self) -> Self::Output {
-        todo!()
+        let mut velos = vec![];
+        for y_speed in (self.y_bounds.1)..=self.x_bounds.1 {
+            for x_speed in 1..=(self.x_bounds.1) {
+                // let (x_speed, y_speed) = (7, 2);
+                // println!("Trying {} {}", x_speed, y_speed);
+                let result = self.simulate(x_speed, y_speed);
+                if let Some(_) = result {
+                    // println!("success");
+                    velos.push((x_speed, y_speed));
+                }
+                // break
+            }
+            // break
+        }
+        // velos.sort_unstable();
+        // println!("{:?}", velos);
+        velos.len() as isize
     }
 }
 
@@ -129,7 +151,7 @@ impl FromStr for Day {
             .collect::<Vec<_>>();
         println!("{:?}", caps);
         let x_bounds = (caps[0], caps[1]);
-        let y_bounds = (caps[2], caps[3]);
+        let y_bounds = (caps[3], caps[2]);
         Ok(Self { x_bounds, y_bounds })
     }
 }
