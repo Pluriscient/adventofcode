@@ -22,6 +22,34 @@ impl Day {
         }
         println!();
     }
+
+    fn create_image(grid: &Vec<Vec<usize>>, x: usize, y: usize) -> Vec<Vec<usize>> {
+        let mut image = grid.clone();
+        for row in image.iter_mut() {
+            for cell in row.iter_mut() {
+                *cell += x + y;
+                while *cell > 9 {
+                    // wrap it back around to 1
+                    *cell -= 9;
+                }
+            }
+        }
+        image
+    }
+
+    fn merge_images(grids: &[Vec<Vec<usize>>], x_len: usize, y_len: usize) -> Vec<Vec<usize>> {
+        assert_eq!(x_len * y_len, grids.len());
+        let grid_len = grids[0].len();
+        let mut grid = vec![vec![0; grid_len * x_len]; y_len];
+        for (ii, row) in grid.iter_mut().enumerate() {
+            for (jj, cell) in row.iter_mut().enumerate() {
+                let grid_index = (ii / grid_len) + (jj / grid_len);
+                *cell = grids[grid_index][ii % grid_len][jj % grid_len];
+            }
+        }
+
+        grid
+    }
 }
 
 impl AOCDay for Day {
@@ -81,6 +109,18 @@ impl AOCDay for Day {
             }
         }
         Self::print_grid(&new_grid);
+        let grids = (0..5)
+            .map(|x| {
+                (0..5)
+                    .map(|y| Self::create_image(&self.grid, x, y))
+                    .collect_vec()
+            })
+            .flatten()
+            .collect_vec();
+        let alt_grid = Self::merge_images(&grids, 5, 5);
+        Self::print_grid(&alt_grid);
+        // assert_eq!(new_grid, alt_grid);
+
         self.grid = new_grid;
         self.part_one()
     }
