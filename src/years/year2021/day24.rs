@@ -2,7 +2,6 @@ use super::util::AResult;
 use super::AOCDay;
 #[allow(unused_imports)]
 use itertools::Itertools;
-use rayon::prelude::*;
 use std::error::Error;
 use std::str::FromStr;
 type Day = Day24;

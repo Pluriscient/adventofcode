@@ -29,7 +29,7 @@ impl SnailFishNumber {
             }
             SnailFishNumber::Pair(a, b) => {
                 if nest_number >= 4 { // or ==?
-                    let a = a.explode();
+                    let _a = a.explode();
                 }
                 let a = a.reduce(nest_number + 1);
                 let b = b.reduce(nest_number + 1);

@@ -23,7 +23,7 @@ struct ScannerReport {
 
 impl FromStr for ScannerReport {
     type Err = Box<dyn Error>;
-    fn from_str(s: &str) -> AResult<Self> {
+    fn from_str(_s: &str) -> AResult<Self> {
         //   let id = parts.next().unwrap().parse()?;
         // let positions = parts.next().unwrap().split(", ").map(|s| {
         //     let mut parts = s.split(", ");
@@ -60,7 +60,7 @@ impl AOCDay for Day {
 
 impl FromStr for Day {
     type Err = Box<dyn Error>;
-    fn from_str(s: &str) -> AResult<Self> {
+    fn from_str(_s: &str) -> AResult<Self> {
         todo!()
     }
 }

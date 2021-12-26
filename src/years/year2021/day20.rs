@@ -4,7 +4,7 @@ use super::AOCDay;
 use itertools::Itertools;
 use std::error::Error;
 use std::fs::File;
-use std::io::{Read, Write};
+use std::io::Read;
 use std::str::FromStr;
 
 type Day = Day20;
