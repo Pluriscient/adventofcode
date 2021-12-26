@@ -5,6 +5,8 @@ use itertools::Itertools;
 use std::collections::HashMap;
 use std::error::Error;
 use std::str::FromStr;
+#[cfg(test)]
+use std::time::{SystemTime, UNIX_EPOCH};
 
 type Day = Day21;
 
@@ -12,7 +14,8 @@ type Day = Day21;
 struct Score {
     player_score: usize,
     player_pos: usize,
-    turns: usize,
+    opp_score: usize,
+    opp_pos: usize,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -21,45 +24,85 @@ struct Day21 {
     opp_pos: usize,
 }
 
-#[allow(unused)]
 impl Day {
-    fn solve(&self, start_score: usize) -> HashMap<usize, usize> {
+    fn solve(&self) -> usize {
         const MOVEMENT_OCCURRENCES: [(usize, usize); 7] =
             [(3, 1), (4, 3), (5, 6), (6, 7), (7, 6), (8, 3), (9, 1)];
         let mut scores = HashMap::new();
         scores.insert(
             Score {
-                player_pos: start_score,
+                player_pos: self.player_pos,
                 player_score: 0,
-                turns: 0,
+                opp_pos: self.opp_pos,
+                opp_score: 0,
             },
             1,
         );
-        let mut finished = HashMap::new();
-        loop {
-            let mut new_scores = HashMap::new();
+        let mut player_won = 0;
+        let mut opp_won = 0;
+        #[cfg(test)]
+        let mut sizes = Vec::with_capacity(20);
+        'out: loop {
+            for (won_score, is_player) in [(&mut player_won, true), (&mut opp_won, false)] {
+                let mut new_scores = HashMap::new();
+                for (score, count) in scores.iter() {
+                    for &(player_move, occurrences) in &MOVEMENT_OCCURRENCES {
+                        let old_pos = if is_player {
+                            score.player_pos
+                        } else {
+                            score.opp_pos
+                        };
+                        let old_score = if is_player {
+                            score.player_score
+                        } else {
+                            score.opp_score
+                        };
+                        let new_pos = (old_pos + player_move - 1) % 10 + 1;
+                        let new_score = old_score + new_pos;
 
-            for (score, count) in scores.iter() {
-                if score.player_score >= 21 {
-                    *finished.entry(score.turns).or_insert(0) += *count;
-                    continue;
+                        if new_score >= 21 {
+                            *won_score += count * occurrences;
+                            continue;
+                        }
+                        let new_score = if is_player {
+                            Score {
+                                player_pos: new_pos,
+                                player_score: new_score,
+                                ..*score
+                            }
+                        } else {
+                            Score {
+                                opp_pos: new_pos,
+                                opp_score: new_score,
+                                ..*score
+                            }
+                        };
+                        *new_scores.entry(new_score).or_insert(0) += count * occurrences;
+                    }
                 }
-                for &(player_move, occurrences) in &MOVEMENT_OCCURRENCES {
-                    let p_pos = (score.player_pos + player_move - 1) % 10 + 1;
-                    let new_score = Score {
-                        player_pos: p_pos,
-                        player_score: score.player_score + p_pos,
-                        turns: score.turns + 1,
-                    };
-                    *new_scores.entry(new_score).or_insert(0) += (count * occurrences);
+                if new_scores.is_empty() {
+                    break 'out;
                 }
+                #[cfg(test)]
+                sizes.push(new_scores.len());
+                scores = new_scores;
             }
-            if new_scores.is_empty() {
-                break;
-            }
-            scores = new_scores;
         }
-        finished
+        #[cfg(test)]
+        std::io::Write::write_all(
+            &mut std::fs::File::create(format!(
+                "day21-sizes-{}.txt",
+                SystemTime::now()
+                    .duration_since(UNIX_EPOCH)
+                    .unwrap()
+                    .as_secs()
+            ))
+            .unwrap(),
+            sizes.iter().map(|x| x.to_string()).join("\n").as_bytes(),
+        )
+        .unwrap();
+
+        player_won.max(opp_won)
     }
 }
 
@@ -131,18 +174,7 @@ impl AOCDay for Day {
         // so 27 * 27 = 729 universes per turn
         // so 729 ^ X = number of universes we need to consider
         // highest number of turns is a such a score that we get a 1 every time (technically we can only have 9 score, rotating every 10 we get a 1)
-        let solve_a = self.solve(self.player_pos);
-        let solve_b = self.solve(self.opp_pos);
-        // so there are
-        println!("{:?}", solve_a);
-        println!("a will have won {} times ", solve_a.values().sum::<usize>());
-        println!("{:?}", solve_b);
-        println!("b will have won {} times ", solve_b.values().sum::<usize>());
-        // let mut mem = HashMap::with_capacity(10000);
-        // expecting: 444356092776315
-        // got:       196218569
-        
-        solve_a.values().sum::<usize>()
+        self.solve()
     }
 }
 
